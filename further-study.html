@@ -9,7 +9,8 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link href="static/coffee.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+<!--     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> -->
 </head>
 <body>
 <div class="container">
@@ -46,14 +47,15 @@
 
 <script>
     "use strict";
-
-    var myImage = document.getElementById("coffee_image");
-    var myRevenueMessage = document.getElementById("revenue");
+// $ # and remove document...
+    var myImage = $("#coffee_image");
+    var myRevenueMessage = $("#revenue");
 
     var drinksOrdered = [];
-
-    myImage.src = "static/coffee_beans.jpg";
-    myImage.addEventListener('click', function () { makeCoffee("brew"); });
+//instead of .src use .attr then ('src',)
+    myImage.attr('src', "static/coffee_beans.jpg");
+    //addEventListener now on
+    myImage.on('click', function () { makeCoffee("brew"); });
 
     // Append the drink_type to drinks_ordered and use console.log to view
     // the output.
@@ -63,16 +65,22 @@
         console.log(drinksOrdered);
 
         var myRevenue = revenue();
-        myRevenueMessage.innerHTML = "Today's revenues: " + myRevenue;
+        // remove inner from HTML and lowercase HTML  and enclose ()
+   //     myRevenueMessage.innerHTML = "Today's revenues: " + myRevenue;
+        myRevenueMessage.html("Today's revenues: " + myRevenue);
+// set attr changes to attr
+// to fadeOut and fadeIn stack the functionality with a .fadeIn() and the amount
+// of milliseconds desired
+// setTimout is a separate function and has its own set of millisenconds
 
-        myImage.setAttribute('src', "static/coffee_machine.jpg");
+        myImage.attr('src', "static/coffee_machine.jpg").fadeOut(3000);
 
         setTimeout(function () {
-            myImage.setAttribute('src', "static/coffee_mug.jpg");
+            myImage.fadeIn(3000).attr('src', "static/coffee_mug.jpg");
         }, 1500);
 
         setTimeout(function () {
-            myImage.setAttribute('src', "static/coffee_beans.jpg");
+            myImage.attr('src', "static/coffee_beans.jpg".fadeIn(3000));
         }, 4000);
     }
 
@@ -80,21 +88,13 @@
     // Create variables for Espresso, Latte, and Hot Chocolate;
     // and add an event listener to each that calls makeCoffee.
 
-    var espresso = document.getElementById("espresso");
-    var latte = document.getElementById("latte");
-    var hotChocolate = document.getElementById("hot-chocolate");
-
-    espresso.addEventListener('click', function () {
-        makeCoffee("espresso");
-    });
-
-    latte.addEventListener('click', function () {
-        makeCoffee("latte");
-    });
-
-    hotChocolate.addEventListener('click', function () {
-        makeCoffee("hot chocolate");
-    });
+    // var espresso = $("#espresso");
+    // var latte = $("#latte");
+    // var hotChocolate = $("#hot-chocolate");
+// below merges the variables and functionality using $ ( and # around variable name
+    $("#espresso").on('click', function () { makeCoffee("espresso"); });
+    $("#latte").on('click', function () { makeCoffee("latte"); });
+    $("#hot-chocolate").on('click', function () { makeCoffee("hot chocolate");});
 
     // Use this JavaScript object to calculate profits for the day and log them
     // to the console.
